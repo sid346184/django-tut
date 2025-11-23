@@ -80,13 +80,6 @@ Run the Django test suite:
 python manage.py test
 ```
 
-### Manual Verification Script
-A verification script `verify_api.py` is included to test core workflows (Create Customer -> Credit -> Debit -> Overdraft Check -> Idempotency -> History).
-
-Run it while the server is running:
-```bash
-python verify_api.py
-```
 
 ## Sample Inputs & Outputs
 
