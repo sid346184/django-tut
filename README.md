@@ -88,26 +88,96 @@ Run it while the server is running:
 python verify_api.py
 ```
 
-### Sample Response
+## Sample Inputs & Outputs
 
+### 1. Create Customer
+**Endpoint**: `POST /api/customers/`
+
+**Request**:
+```json
+{
+    "name": "Jane Doe",
+    "phone": "+19876543210",
+    "email": "jane@example.com"
+}
+```
+
+**Response** (`201 Created`):
+```json
+{
+    "id": 1,
+    "name": "Jane Doe",
+    "phone": "+19876543210",
+    "email": "jane@example.com",
+    "created_at": "2025-11-23T10:00:00Z",
+    "updated_at": "2025-11-23T10:00:00Z",
+    "is_active": true
+}
+```
+
+### 2. Credit Wallet
+**Endpoint**: `POST /api/wallet/credit/`
+
+**Request**:
+```json
+{
+    "customer_id": 1,
+    "points": 100,
+    "idempotency_key": "unique-key-123"
+}
+```
+
+**Response** (`201 Created`):
+```json
+{
+    "id": 1,
+    "wallet": 1,
+    "type": "CREDIT",
+    "points": 100,
+    "idempotency_key": "unique-key-123",
+    "created_at": "2025-11-23T10:05:00Z",
+    "meta": {}
+}
+```
+
+### 3. Debit Wallet
+**Endpoint**: `POST /api/wallet/debit/`
+
+**Request**:
+```json
+{
+    "customer_id": 1,
+    "points": 50,
+    "idempotency_key": "unique-key-456"
+}
+```
+
+**Response** (`201 Created`):
+```json
+{
+    "id": 2,
+    "wallet": 1,
+    "type": "DEBIT",
+    "points": 50,
+    "idempotency_key": "unique-key-456",
+    "created_at": "2025-11-23T10:10:00Z",
+    "meta": {}
+}
+```
+
+### 4. Transaction History
+**Endpoint**: `GET /api/wallet/transactions/?customer_id=1`
+
+**Response** (`200 OK`):
 ```json
 [
     {
-        "id": 3,
+        "id": 2,
         "wallet": 1,
         "type": "DEBIT",
         "points": 50,
-        "idempotency_key": "unique-key-5",
-        "created_at": "2025-11-23T14:26:11.289072Z",
-        "meta": {}
-    },
-    {
-        "id": 2,
-        "wallet": 1,
-        "type": "CREDIT",
-        "points": 100,
-        "idempotency_key": "unique-key-2",
-        "created_at": "2025-11-23T14:24:36.854960Z",
+        "idempotency_key": "unique-key-456",
+        "created_at": "2025-11-23T10:10:00Z",
         "meta": {}
     },
     {
@@ -115,8 +185,8 @@ python verify_api.py
         "wallet": 1,
         "type": "CREDIT",
         "points": 100,
-        "idempotency_key": "unique-key-1",
-        "created_at": "2025-11-23T14:22:38.674121Z",
+        "idempotency_key": "unique-key-123",
+        "created_at": "2025-11-23T10:05:00Z",
         "meta": {}
     }
 ]
